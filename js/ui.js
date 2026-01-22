@@ -342,7 +342,8 @@ const UI = {
                             <div class="round-stars">${stars}</div>
                             <div class="round-stats">
                                 ${round.correct}/${round.correct + round.incorrect} correct<br>
-                                ${Timer.formatTimeSeconds(round.avgTime)} avg
+                                ${Timer.formatTimeSeconds(round.avgTime)} avg<br>
+                                ${Timer.formatTime(round.totalTime)} total
                             </div>
                         </div>
                     `;

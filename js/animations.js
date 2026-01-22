@@ -131,7 +131,7 @@ const Animations = {
                 ? '<i class="fas fa-star"></i> Amazing! <i class="fas fa-star"></i>' 
                 : correctMessages[Math.floor(Math.random() * correctMessages.length)];
             
-            feedbackMessage.textContent = message;
+            feedbackMessage.innerHTML = message;
             feedbackMessage.className = 'feedback-message correct show';
             
             // Mascot reaction (handled separately via Mascot.reactToAnswer)
