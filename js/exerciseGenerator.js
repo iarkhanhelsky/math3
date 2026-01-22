@@ -68,7 +68,8 @@ const ExerciseGenerator = {
     // Generate a block of 5 exercises with consistent operation and complexity
     generateBlock(operation, complexity) {
         const block = [];
-        let hasZero = false; // Track if we already have an exercise with 0
+        let hasZeroOperand = false; // Track if we already have an exercise with 0 as operand
+        let hasZeroResult = false; // Track if we already have an exercise with 0 as result
         
         for (let i = 0; i < 5; i++) {
             let exercise;
@@ -84,12 +85,16 @@ const ExerciseGenerator = {
                     ex.a === exercise.a && ex.b === exercise.b && ex.operation === exercise.operation
                 );
                 
-                // Check if exercise has 0 and we already have one with 0
-                const hasZeroInExercise = exercise.a === 0 || exercise.b === 0;
-                const wouldExceedZeroLimit = hasZeroInExercise && hasZero;
+                // Check if exercise has 0 as operand and we already have one with 0 as operand
+                const hasZeroInOperand = exercise.a === 0 || exercise.b === 0;
+                const wouldExceedZeroOperandLimit = hasZeroInOperand && hasZeroOperand;
                 
-                // If exercise is valid (not duplicate and doesn't exceed zero limit), break
-                if (!isDuplicate && !wouldExceedZeroLimit) {
+                // Check if exercise has 0 as result and we already have one with 0 as result
+                const hasZeroInResult = exercise.answer === 0;
+                const wouldExceedZeroResultLimit = hasZeroInResult && hasZeroResult;
+                
+                // If exercise is valid (not duplicate, doesn't exceed zero operand limit, and doesn't exceed zero result limit), break
+                if (!isDuplicate && !wouldExceedZeroOperandLimit && !wouldExceedZeroResultLimit) {
                     break;
                 }
             } while (attempts < maxAttempts);
@@ -97,9 +102,14 @@ const ExerciseGenerator = {
             // If we couldn't generate a valid exercise after max attempts, use the last generated one
             // (This is a fallback to prevent infinite loops)
             
-            // Track if this exercise has 0
+            // Track if this exercise has 0 as operand
             if (exercise.a === 0 || exercise.b === 0) {
-                hasZero = true;
+                hasZeroOperand = true;
+            }
+            
+            // Track if this exercise has 0 as result
+            if (exercise.answer === 0) {
+                hasZeroResult = true;
             }
             
             block.push(exercise);
