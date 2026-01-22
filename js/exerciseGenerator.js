@@ -68,8 +68,41 @@ const ExerciseGenerator = {
     // Generate a block of 5 exercises with consistent operation and complexity
     generateBlock(operation, complexity) {
         const block = [];
+        let hasZero = false; // Track if we already have an exercise with 0
+        
         for (let i = 0; i < 5; i++) {
-            block.push(this.generateExercise(operation, complexity));
+            let exercise;
+            let attempts = 0;
+            const maxAttempts = 200; // Increased attempts for constraint checking
+            
+            do {
+                exercise = this.generateExercise(operation, complexity);
+                attempts++;
+                
+                // Check if exercise already exists in block (same a, b, operation)
+                const isDuplicate = block.some(ex => 
+                    ex.a === exercise.a && ex.b === exercise.b && ex.operation === exercise.operation
+                );
+                
+                // Check if exercise has 0 and we already have one with 0
+                const hasZeroInExercise = exercise.a === 0 || exercise.b === 0;
+                const wouldExceedZeroLimit = hasZeroInExercise && hasZero;
+                
+                // If exercise is valid (not duplicate and doesn't exceed zero limit), break
+                if (!isDuplicate && !wouldExceedZeroLimit) {
+                    break;
+                }
+            } while (attempts < maxAttempts);
+            
+            // If we couldn't generate a valid exercise after max attempts, use the last generated one
+            // (This is a fallback to prevent infinite loops)
+            
+            // Track if this exercise has 0
+            if (exercise.a === 0 || exercise.b === 0) {
+                hasZero = true;
+            }
+            
+            block.push(exercise);
         }
         return block;
     },

@@ -113,10 +113,16 @@ const MathTrainer = {
     generateNextExercise() {
         // Check if we need a new block
         if (this.blockIndex >= this.currentBlock.length) {
-            // Determine operation (alternating)
-            const operation = this.exerciseCount === 0 
-                ? '+' 
-                : ExerciseGenerator.getNextOperation(this.currentState.currentOperation);
+            // Determine operation (alternating, but ensure it doesn't repeat)
+            let operation;
+            if (this.exerciseCount === 0) {
+                operation = '+';
+            } else {
+                // Get the previous block's operation (the one we just finished)
+                const previousOperation = this.currentState.currentOperation;
+                // Ensure we don't repeat the same operation - explicitly alternate
+                operation = previousOperation === '+' ? '-' : '+';
+            }
             
             // Determine complexity (progressive)
             const complexity = ExerciseGenerator.selectComplexity(this.exerciseCount + 1);
