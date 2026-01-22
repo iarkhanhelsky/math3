@@ -104,22 +104,33 @@ const Animations = {
         
         if (!questionCard || !feedbackMessage) return;
 
-        // Identity reinforcement messages
+        // Identity reinforcement messages (Dutch - kid-friendly)
         const correctMessages = [
-            "Great job!",
-            "Nice thinking!",
-            "Awesome!",
-            "You're a math explorer!",
-            "Excellent!",
-            "You're getting really good at this!"
+            "Leuk!",
+            "Mooi!",
+            "Super!",
+            "Goed!",
+            "Knap!",
+            "Top!",
+            "Geweldig!",
+            "Fantastisch!",
+            "Prima!",
+            "Bravo!",
+            "Tof!",
+            "Cool!"
         ];
         
         const wrongMessages = [
-            "Nice try!",
-            "You're getting closer!",
-            "Try again!",
-            "Keep going!",
-            "You're learning!"
+            "Bijna!",
+            "Probeer nog eens!",
+            "Ga door!",
+            "Goed zo!",
+            "Bijna goed!",
+            "Nog een keer!",
+            "Je kunt het!",
+            "Blijf proberen!",
+            "Bijna raak!",
+            "Niet opgeven!"
         ];
 
         if (correct) {
@@ -128,7 +139,7 @@ const Animations = {
             
             // Positive text message
             const message = isVariableReward 
-                ? '<i class="fas fa-star"></i> Amazing! <i class="fas fa-star"></i>' 
+                ? '<i class="fas fa-star"></i> Geweldig! <i class="fas fa-star"></i>' 
                 : correctMessages[Math.floor(Math.random() * correctMessages.length)];
             
             feedbackMessage.innerHTML = message;

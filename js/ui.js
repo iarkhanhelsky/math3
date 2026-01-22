@@ -15,7 +15,7 @@ const UI = {
             btn.addEventListener('click', (e) => {
                 const digit = e.target.getAttribute('data-digit');
                 const action = e.target.getAttribute('data-action');
-                
+
                 if (digit !== null) {
                     this.handleKeypadInput(parseInt(digit));
                 } else if (action === 'clear') {
@@ -72,24 +72,24 @@ const UI = {
             clearTimeout(this.autoSubmitTimeout);
             this.autoSubmitTimeout = null;
         }
-        
+
         const questionCard = document.getElementById('question-card');
-        
+
         // Exit animation
         if (questionCard && this.currentExercise) {
             questionCard.classList.add('exiting');
             setTimeout(() => {
                 questionCard.classList.remove('exiting');
-                
+
                 // Update exercise
                 this.currentExercise = exercise;
                 this.currentInput = '';
-                
+
                 document.getElementById('number-a').textContent = exercise.a;
                 document.getElementById('operation').textContent = exercise.operation;
                 document.getElementById('number-b').textContent = exercise.b;
                 this.updateAnswerDisplay();
-                
+
                 // Enter animation
                 questionCard.classList.add('entering');
                 setTimeout(() => {
@@ -100,12 +100,12 @@ const UI = {
             // First exercise - no exit animation
             this.currentExercise = exercise;
             this.currentInput = '';
-            
+
             document.getElementById('number-a').textContent = exercise.a;
             document.getElementById('operation').textContent = exercise.operation;
             document.getElementById('number-b').textContent = exercise.b;
             this.updateAnswerDisplay();
-            
+
             if (questionCard) {
                 questionCard.classList.add('entering');
                 setTimeout(() => {
@@ -131,17 +131,17 @@ const UI = {
         if (typeof Sounds !== 'undefined') {
             Sounds.playButtonSound();
         }
-        
+
         if (this.currentInput.length < 3) { // Max 3 digits (answers < 100)
             // Clear any pending auto-submit timeout
             if (this.autoSubmitTimeout) {
                 clearTimeout(this.autoSubmitTimeout);
                 this.autoSubmitTimeout = null;
             }
-            
+
             this.currentInput += digit.toString();
             this.updateAnswerDisplay();
-            
+
             // Auto-submit when answer is complete (if it's a valid answer)
             const answer = parseInt(this.currentInput);
             if (answer >= 0 && answer < 100) {
@@ -181,7 +181,7 @@ const UI = {
     updateProgressBar(exerciseCount) {
         const percentage = (exerciseCount / 100) * 100;
         const progressBar = document.getElementById('progress-bar');
-        
+
         if (progressBar) {
             progressBar.style.width = percentage + '%';
         }
@@ -194,30 +194,30 @@ const UI = {
                 marker.classList.add('reached');
             }
         });
-        
+
         // Update star progress (10 stars, one per 10 exercises)
         this.updateStarProgress(exerciseCount);
     },
-    
+
     // Update star progress system
     updateStarProgress(exerciseCount) {
         const starProgress = document.getElementById('star-progress');
         if (!starProgress) return;
-        
+
         const totalStars = 10;
         const filledStars = Math.floor(exerciseCount / 10);
         const partialStar = (exerciseCount % 10) / 10;
-        
+
         // Always show at least one star (progress illusion - never show empty)
         const starsToShow = Math.max(1, Math.min(totalStars, filledStars + (partialStar > 0 ? 1 : 0) + 1));
-        
+
         starProgress.innerHTML = '';
-        
+
         for (let i = 0; i < starsToShow; i++) {
             const star = document.createElement('span');
             star.className = 'star';
             star.innerHTML = '<i class="fas fa-star"></i>';
-            
+
             if (i < filledStars) {
                 star.classList.add('filled');
             } else if (i === filledStars && partialStar > 0) {
@@ -228,29 +228,34 @@ const UI = {
                 // Show empty star for "almost there" effect (progress illusion)
                 star.style.opacity = 0.2;
             }
-            
+
             starProgress.appendChild(star);
         }
-        
+
         // Show encouraging message at milestones (every 5 exercises)
         if (exerciseCount > 0 && exerciseCount % 5 === 0) {
             this.showProgressMessage(exerciseCount);
         }
     },
-    
-    // Show progress encouragement message
+
+    // Show progress encouragement message (Dutch - kid-friendly)
     showProgressMessage(exerciseCount) {
         const messages = [
-            "Keep going!",
-            "You're doing great!",
-            "Almost there!",
-            "2 more to level up!",
-            "You're a math explorer!"
+            "Ga door!",
+            "Goed bezig!",
+            "Bijna!",
+            "Nog even!",
+            "Knap!",
+            "Super!",
+            "Mooi zo!",
+            "Top!",
+            "Geweldig!",
+            "Blijf zo doorgaan!"
         ];
-        
+
         const message = messages[Math.floor(Math.random() * messages.length)];
         const feedbackMessage = document.getElementById('feedback-message');
-        
+
         if (feedbackMessage) {
             feedbackMessage.textContent = message;
             feedbackMessage.className = 'feedback-message correct show';
@@ -271,7 +276,7 @@ const UI = {
             screen.classList.remove('active');
         });
         document.getElementById('game-screen').classList.add('active');
-        
+
         // Initialize star progress if not already done
         if (window.MathTrainer) {
             this.updateStarProgress(window.MathTrainer.exerciseCount || 0);
@@ -305,7 +310,7 @@ const UI = {
         const stars = roundData.starRating;
         const starElements = document.querySelectorAll('#star-rating .star');
         starElements.forEach(star => star.classList.remove('earned'));
-        
+
         setTimeout(() => {
             Animations.animateStarRating(stars);
         }, 500);
@@ -334,7 +339,7 @@ const UI = {
                     const filledStars = '<i class="fas fa-star"></i>'.repeat(round.starRating);
                     const emptyStars = '<i class="far fa-star"></i>'.repeat(3 - round.starRating);
                     const stars = filledStars + emptyStars;
-                    
+
                     return `
                         <div class="round-item">
                             <div class="round-number">Round ${round.roundId}</div>
