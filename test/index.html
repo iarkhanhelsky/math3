@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Trainer - Test Suite</title>
+    <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.25.0.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+
+    <!-- Load application modules -->
+    <script src="../js/storage.js"></script>
+    <script src="../js/exerciseGenerator.js"></script>
+    <script src="../js/timer.js"></script>
+    <script src="../js/stats.js"></script>
+
+    <!-- Load QUnit -->
+    <script src="https://code.jquery.com/qunit/qunit-2.25.0.js"></script>
+
+    <!-- Load test files -->
+    <script src="tests/storage.test.js"></script>
+    <script src="tests/exerciseGenerator.test.js"></script>
+    <script src="tests/timer.test.js"></script>
+    <script src="tests/stats.test.js"></script>
+    <script src="tests/integration.test.js"></script>
+</body>
+</html>

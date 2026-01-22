@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Trainer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app">
+        <button id="view-stats-game-btn" class="stats-corner-btn" title="View Statistics"><i class="fas fa-chart-bar"></i></button>
+        <button id="mute-toggle-btn" class="mute-toggle-btn" title="Toggle Sound"><i class="fas fa-volume-up"></i></button>
+        <!-- Progress Bar -->
+        <div id="progress-container" class="progress-container">
+            <div class="progress-bar-wrapper">
+                <div id="progress-bar" class="progress-bar"></div>
+                <div class="progress-milestones">
+                    <div class="milestone-marker" data-milestone="25"></div>
+                    <div class="milestone-marker" data-milestone="50"></div>
+                    <div class="milestone-marker" data-milestone="75"></div>
+                    <div class="milestone-marker" data-milestone="100"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game-screen" class="screen active">
+            <!-- Zone 1: Mascot -->
+            <div class="mascot-zone">
+                <div id="mascot-container"></div>
+            </div>
+            
+            <!-- Zone 2: Question Card -->
+            <div class="question-card-zone">
+                <div id="question-card" class="question-card">
+                    <div id="exercise-display" class="exercise-display">
+                        <span id="number-a" class="number">0</span>
+                        <span id="operation" class="operation">+</span>
+                        <span id="number-b" class="number">0</span>
+                        <span class="equals">=</span>
+                        <div id="answer-display" class="answer-display">
+                            <span id="answer-input">_</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Feedback Message (outside question-card-zone to avoid clipping) -->
+            <div id="feedback-message" class="feedback-message"></div>
+
+            <!-- Zone 3: Answer Buttons -->
+            <div class="keypad-container">
+                <div class="keypad">
+                    <button class="keypad-btn" data-digit="1">1</button>
+                    <button class="keypad-btn" data-digit="2">2</button>
+                    <button class="keypad-btn" data-digit="3">3</button>
+                    <button class="keypad-btn" data-digit="4">4</button>
+                    <button class="keypad-btn" data-digit="5">5</button>
+                    <button class="keypad-btn" data-digit="6">6</button>
+                    <button class="keypad-btn" data-digit="7">7</button>
+                    <button class="keypad-btn" data-digit="8">8</button>
+                    <button class="keypad-btn" data-digit="9">9</button>
+                    <button class="keypad-btn" data-digit="0">0</button>
+                    <button class="keypad-btn clear-btn" data-action="clear">C</button>
+                </div>
+            </div>
+
+            <!-- Zone 4: Progress / Rewards -->
+            <div id="progress-rewards-zone" class="progress-rewards-zone">
+                <div id="star-progress" class="star-progress"></div>
+            </div>
+        </div>
+
+        <!-- Stats Screen -->
+        <div id="stats-screen" class="screen">
+            <div class="stats-container">
+                <h2>Statistics</h2>
+                <div class="stats-section">
+                    <h3>Daily Streak</h3>
+                    <div id="streak-display" class="streak-display">
+                        <span id="streak-count">0</span> days
+                    </div>
+                </div>
+                <div class="stats-section">
+                    <h3>Round History</h3>
+                    <div id="round-history" class="round-history"></div>
+                </div>
+                <div class="stats-section">
+                    <h3>All-Time Stats</h3>
+                    <div id="all-time-stats" class="all-time-stats"></div>
+                </div>
+                <button id="back-to-game-btn" class="btn-primary">Back to Game</button>
+            </div>
+        </div>
+
+        <!-- Round Results Screen -->
+        <div id="results-screen" class="screen">
+            <div class="results-container">
+                <h2>Round Complete!</h2>
+                <div id="star-rating" class="star-rating">
+                    <span class="star"><i class="fas fa-star"></i></span>
+                    <span class="star"><i class="fas fa-star"></i></span>
+                    <span class="star"><i class="fas fa-star"></i></span>
+                </div>
+                <div class="results-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Correct:</span>
+                        <span id="results-correct" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Incorrect:</span>
+                        <span id="results-incorrect" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Average Speed:</span>
+                        <span id="results-avg-speed" class="stat-value">0s</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Total Time:</span>
+                        <span id="results-total-time" class="stat-value">0s</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Adjusted Time:</span>
+                        <span id="results-adjusted-time" class="stat-value">0s</span>
+                    </div>
+                </div>
+                <div class="results-actions">
+                    <button id="new-round-btn" class="btn-primary">New Round</button>
+                    <button id="view-stats-btn" class="btn-secondary">View Stats</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Celebration Overlay -->
+        <div id="celebration-overlay" class="celebration-overlay"></div>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/exerciseGenerator.js"></script>
+    <script src="js/timer.js"></script>
+    <script src="js/stats.js"></script>
+    <script src="js/mascot.js"></script>
+    <script src="js/sounds.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
